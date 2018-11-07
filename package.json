@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "homepage": "https://vkcom.github.io/vk-apps-camera/",
+  "homepage": "https://VKCOM.github.io/vk-apps-camera/",
   "scripts": {
     "start": "cross-env PORT=10889 react-scripts start",
     "build": "react-scripts build",
@@ -25,7 +25,6 @@
     "@vkontakte/vkui-connect": "^1.1.2",
     "core-js": "^2.5.7",
     "prop-types": "^15.6.2",
-    "react": "^16.6.1",
-    "react-dom": "^16.6.1"
+    "react": "^16.6.1"
   }
 }
