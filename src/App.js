@@ -7,24 +7,27 @@ class App extends React.Component {
     constructor(props) {
         super(props);
 
-        this.video = React.createRef();
-    }
-
-    handleVideo(stream) {
-        this.video.src = window.URL.createObjectURL(stream);
-    }
-
-    videoError() {
-
-    }
-
-    render() {
-        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
-
-        if (navigator.getUserMedia) {
-            navigator.getUserMedia({video: true}, this.handleVideo, this.videoError);
+        this.state = {
+            source: ''
         }
+    }
 
+    handleVideo = (stream) => {
+        this.setState({
+            source: window.URL.createObjectURL(stream)
+        })
+    }
+
+    videoError = (err) => {
+        alert(err.name)
+    }
+
+    componentDidMount(){
+        navigator.mediaDevices.getUserMedia({video: true, audio: true})
+            .then(this.handleVideo)
+            .catch(this.videoError)
+    }
+    render() {
         return (
             <View activePanel="mainPanel">
                 <Panel id="mainPanel">
@@ -33,7 +36,8 @@ class App extends React.Component {
                     </PanelHeader>
                     <Group title="Data">
                         <Div>
-                            <video ref={this.video}  id="player" autoPlay></video>
+                            <video id="video-chat" src={this.state.source} autoPlay>
+                            </video>
                         </Div>
                     </Group>
                 </Panel>
