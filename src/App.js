@@ -1,43 +1,47 @@
 import React from 'react';
-import {Avatar, Div, Group, Panel, PanelHeader, View} from '@vkontakte/vkui';
+import {Div, Group, Panel, View} from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 
 
 class App extends React.Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            source: ''
-        }
+        this.videoRef = React.createRef();
+        this.handleVideo = this.handleVideo.bind(this);
+        this.videoError = this.videoError.bind(this);
     }
 
-    handleVideo = (stream) => {
-        this.setState({
-            source: window.URL.createObjectURL(stream)
-        })
+    handleVideo(stream) {
+        this.videoRef.current.srcObject = stream;
     }
 
     videoError = (err) => {
         alert(err.name)
     }
 
-    componentDidMount(){
-        navigator.mediaDevices.getUserMedia({video: true, audio: true})
-            .then(this.handleVideo)
-            .catch(this.videoError)
+
+    componentDidMount() {
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
+        if (navigator.getUserMedia) {
+            let constraints = {
+                audio: false,
+                video: {facingMode: 'environment'}
+            };
+
+            navigator.mediaDevices.getUserMedia(constraints)
+                .then(this.handleVideo)
+                .catch(this.videoError)
+        }
     }
+
     render() {
         return (
-            <View activePanel="mainPanel">
+            <View activePanel="mainPanel" header={false}>
                 <Panel id="mainPanel">
-                    <PanelHeader>
-                        Camera
-                    </PanelHeader>
-                    <Group title="Data">
+                    <Group>
                         <Div>
-                            <video id="video-chat" src={this.state.source} autoPlay>
-                            </video>
+                            <video ref={this.videoRef} style={{width: '100%'}} playsInline autoPlay muted/>
                         </Div>
                     </Group>
                 </Panel>
