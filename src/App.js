@@ -36,8 +36,10 @@ class App extends React.Component {
                     </PanelHeader>
                     <Group title="Data">
                         <Div>
-                            <video id="player" src={this.state.videoSrc} controls autoPlay></video>
+                            <video id="player" src={this.state.videoSrc} autoPlay></video>
                         </Div>
+
+                        <Div>{this.state.videoSrc}</Div>
                     </Group>
                 </Panel>
             </View>
