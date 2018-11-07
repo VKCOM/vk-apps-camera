@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "homepage": "https://vkcom.github.io/vk-apps-camera/",
   "scripts": {
-    "start": "cross-env PORT=10888 react-scripts start",
-    "build": "react-scripts build"
+    "start": "cross-env PORT=10889 react-scripts start",
+    "build": "react-scripts build",
+    "deploy": "gh-pages -d build",
+    "predeploy": "npm run build"
   },
   "keywords": [],
   "author": "",
@@ -13,7 +16,8 @@
   "devDependencies": {
     "cross-env": "^5.2.0",
     "react-hot-loader": "^4.3.12",
-    "react-scripts": "^1.1.5"
+    "react-scripts": "^1.1.5",
+    "gh-pages": "^1.2.0"
   },
   "dependencies": {
     "@vkontakte/icons": "^1.2.1",
