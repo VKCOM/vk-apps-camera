@@ -1,19 +1,30 @@
 import React from 'react';
-import {Button, Div, Group, Panel, PanelHeader, View, Avatar} from '@vkontakte/vkui';
+import {Avatar, Div, Group, Panel, PanelHeader, View} from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
-import Icon24Camera from '@vkontakte/icons/dist/24/camera';
 
 
 class App extends React.Component {
     constructor(props) {
         super(props);
 
-        this.fileUpload = React.createRef();
-        this.showFileUpload = this.showFileUpload.bind(this);
+        this.state = {
+            videoSrc: null
+        };
     }
 
-    showFileUpload() {
-        this.fileUpload.current.click();
+    componentDidMount() {
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
+        if (navigator.getUserMedia) {
+            navigator.getUserMedia({video: true}, this.handleVideo, this.videoError);
+        }
+    }
+
+    handleVideo(stream) {
+        this.setState({videoSrc: window.URL.createObjectURL(stream)});
+    }
+
+    videoError() {
+
     }
 
     render() {
@@ -25,13 +36,7 @@ class App extends React.Component {
                     </PanelHeader>
                     <Group title="Data">
                         <Div>
-                            <Avatar src="https://pp.userapi.com/c841034/v841034569/3b8c1/pt3sOw_qhfg.jpg"/>
-                        </Div>
-                        <Div>
-                            <Button before={<Icon24Camera/>} size="xl" onClick={this.showFileUpload}>Take a
-                                photo</Button>
-                            <input style={{display: "none"}} ref={this.fileUpload} type="file" accept="image/*"
-                                   capture="camera"/>
+                            <video id="player" src={this.state.videoSrc} controls autoPlay></video>
                         </Div>
                     </Group>
                 </Panel>
